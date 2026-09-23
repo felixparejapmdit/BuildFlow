@@ -1,0 +1,17 @@
+{
+  "name": "BuildFlow",
+  "short_name": "BuildFlow",
+  "description": "VIP Estate & Properties Project Progress & Manpower Management",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
