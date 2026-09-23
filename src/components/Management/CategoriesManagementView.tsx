@@ -12,6 +12,7 @@ import {
   Briefcase
 } from 'lucide-react';
 import { getIconColorForText } from '../../utils/colors';
+import { showConfirm } from '../Common/ConfirmDialog';
 
 interface CategoriesManagementViewProps {
   categories: CategoryItem[];
@@ -214,8 +215,15 @@ export const CategoriesManagementView: React.FC<CategoriesManagementViewProps> =
                           <button 
                             type="button" 
                             className="btn-subtle" 
-                            onClick={() => {
-                              if (window.confirm(`Delete category "${cat.name}"?`)) {
+                            onClick={async () => {
+                              const confirmed = await showConfirm({
+                                title: 'Delete Category',
+                                message: `Are you sure you want to delete category "${cat.name}"?\n\nExisting projects in this category will retain their history but may require taxonomy updates.`,
+                                confirmText: 'Delete Category',
+                                variant: 'danger',
+                                notice: 'Category taxonomy update'
+                              });
+                              if (confirmed) {
                                 onDeleteCategory(cat.id);
                               }
                             }}

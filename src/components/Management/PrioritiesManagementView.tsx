@@ -11,6 +11,7 @@ import {
   Flame,
   Briefcase
 } from 'lucide-react';
+import { showConfirm } from '../Common/ConfirmDialog';
 
 interface PrioritiesManagementViewProps {
   priorities: PriorityItem[];
@@ -257,8 +258,15 @@ export const PrioritiesManagementView: React.FC<PrioritiesManagementViewProps> =
                           <button 
                             type="button" 
                             className="btn-subtle" 
-                            onClick={() => {
-                              if (window.confirm(`Delete priority "${prio.name}"?`)) {
+                            onClick={async () => {
+                              const confirmed = await showConfirm({
+                                title: 'Delete Priority Tier',
+                                message: `Are you sure you want to delete priority tier "${prio.name}"?\n\nExisting workstreams with this tier may need priority re-classification.`,
+                                confirmText: 'Delete Priority',
+                                variant: 'danger',
+                                notice: 'Taxonomy priority adjustment'
+                              });
+                              if (confirmed) {
                                 onDeletePriority(prio.id);
                               }
                             }}

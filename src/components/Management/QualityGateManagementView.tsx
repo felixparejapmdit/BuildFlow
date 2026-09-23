@@ -19,6 +19,7 @@ import {
   Eye,
   Scale
 } from 'lucide-react';
+import { showConfirm } from '../Common/ConfirmDialog';
 
 interface QualityGateManagementViewProps {
   items: QualityGateItem[];
@@ -100,8 +101,15 @@ export const QualityGateManagementView: React.FC<QualityGateManagementViewProps>
     setIsModalOpen(false);
   };
 
-  const handleDelete = (id: string, title: string) => {
-    if (window.confirm(`Delete quality gate check "${title}"? This will remove it from the pre-flight checklist modal.`)) {
+  const handleDelete = async (id: string, title: string) => {
+    const confirmed = await showConfirm({
+      title: 'Delete Quality Gate Check',
+      message: `Are you sure you want to delete checklist item "${title}"?\n\nThis will permanently remove it from the pre-flight checklist verification workflow.`,
+      confirmText: 'Delete Rule',
+      variant: 'danger',
+      notice: 'Affects pre-flight compliance evaluations'
+    });
+    if (confirmed) {
       onDeleteItem(id);
     }
   };

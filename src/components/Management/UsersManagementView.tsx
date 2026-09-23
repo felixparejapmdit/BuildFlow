@@ -22,6 +22,7 @@ import {
   UserX
 } from 'lucide-react';
 import { getIconColorForText } from '../../utils/colors';
+import { showConfirm, showAlert } from '../Common/ConfirmDialog';
 
 interface UsersManagementViewProps {
   users: User[];
@@ -136,12 +137,24 @@ export const UsersManagementView: React.FC<UsersManagementViewProps> = ({
     setIsModalOpen(false);
   };
 
-  const handleDelete = (user: User) => {
+  const handleDelete = async (user: User) => {
     if (user.role === 'admin' && adminCount <= 1) {
-      alert('Cannot delete the only remaining Administrator account.');
+      showAlert({
+        title: 'Action Restricted',
+        message: 'Cannot delete the only remaining Administrator account.\n\nAssign another Administrator before removing this user.',
+        variant: 'warning',
+        notice: 'Security policy • At least one admin account must remain active'
+      });
       return;
     }
-    if (window.confirm(`Are you sure you want to delete user account "${user.fullName}" (@${user.username})?`)) {
+    const confirmed = await showConfirm({
+      title: 'Delete User Account',
+      message: `Are you sure you want to delete user account "${user.fullName}" (@${user.username})?\n\nThis will permanently revoke their access credentials to BuildFlow.`,
+      confirmText: 'Delete Account',
+      variant: 'danger',
+      notice: 'User session & credentials revoked'
+    });
+    if (confirmed) {
       onDeleteUser(user.id);
     }
   };

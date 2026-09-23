@@ -15,6 +15,7 @@ import {
   Sparkles,
   CheckCircle2
 } from 'lucide-react';
+import { showConfirm } from '../Common/ConfirmDialog';
 
 interface RosterViewProps {
   employees: Employee[];
@@ -445,8 +446,15 @@ export const RosterView: React.FC<RosterViewProps> = ({
                         <button 
                           type="button" 
                           className="btn-subtle"
-                          onClick={() => {
-                            if (window.confirm(`Delete ${emp.fullName} (${emp.externalPwaId}) from roster?`)) {
+                          onClick={async () => {
+                            const confirmed = await showConfirm({
+                              title: 'Remove Worker from Roster',
+                              message: `Are you sure you want to remove ${emp.fullName} (${emp.externalPwaId}) from the workforce roster?\n\nAny active site allocations for this worker will be cleared.`,
+                              confirmText: 'Remove Worker',
+                              variant: 'danger',
+                              notice: 'Workforce Roster update • Trade allocations released'
+                            });
+                            if (confirmed) {
                               onDeleteEmployee(emp.id);
                             }
                           }}

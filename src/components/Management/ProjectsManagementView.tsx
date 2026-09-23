@@ -27,6 +27,7 @@ import {
   X,
   ExternalLink
 } from 'lucide-react';
+import { showConfirm } from '../Common/ConfirmDialog';
 
 interface ProjectsManagementViewProps {
   projects: Project[];
@@ -371,8 +372,16 @@ export const ProjectsManagementView: React.FC<ProjectsManagementViewProps> = ({
                         <button 
                           type="button" 
                           className="btn-subtle" 
-                          onClick={() => {
-                            if (window.confirm(`Are you sure you want to delete "${project.title}"? This will permanently remove this project.`)) {
+                          onClick={async () => {
+                            const confirmed = await showConfirm({
+                              title: 'Delete Project Workstream',
+                              message: `Are you sure you want to delete "${project.title}"?\n\nThis will permanently remove this project from BuildFlow and release any allocated crew members.`,
+                              confirmText: 'Delete Project',
+                              cancelText: 'Cancel',
+                              variant: 'danger',
+                              notice: 'Permanent action • Cannot be undone'
+                            });
+                            if (confirmed) {
                               onDeleteProject(project.id);
                             }
                           }}
@@ -525,8 +534,17 @@ export const ProjectsManagementView: React.FC<ProjectsManagementViewProps> = ({
                 <button 
                   type="button" 
                   className="btn-subtle" 
-                  onClick={() => {
-                    if (editingProject && window.confirm(`Are you sure you want to delete "${editingProject.title}"? This action cannot be undone.`)) {
+                  onClick={async () => {
+                    if (!editingProject) return;
+                    const confirmed = await showConfirm({
+                      title: 'Delete Project Workstream',
+                      message: `Are you sure you want to delete "${editingProject.title}"?\n\nThis will permanently remove this project and return all crew to the bench.`,
+                      confirmText: 'Delete Project',
+                      cancelText: 'Cancel',
+                      variant: 'danger',
+                      notice: 'Permanent action • Cannot be undone'
+                    });
+                    if (confirmed) {
                       onDeleteProject(editingProject.id);
                       setEditingProject(null);
                     }

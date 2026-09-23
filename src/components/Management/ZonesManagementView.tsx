@@ -13,6 +13,7 @@ import {
   Building,
   Briefcase
 } from 'lucide-react';
+import { showConfirm } from '../Common/ConfirmDialog';
 
 interface ZonesManagementViewProps {
   zones: Zone[];
@@ -275,8 +276,14 @@ export const ZonesManagementView: React.FC<ZonesManagementViewProps> = ({
                           <button 
                             type="button" 
                             className="btn-subtle" 
-                            onClick={() => {
-                              if (window.confirm(`Delete zone "${zone.name}"?`)) {
+                            onClick={async () => {
+                              const confirmed = await showConfirm({
+                                title: 'Delete Work Zone',
+                                message: `Are you sure you want to delete zone "${zone.name}"?`,
+                                confirmText: 'Delete Zone',
+                                variant: 'danger'
+                              });
+                              if (confirmed) {
                                 onDeleteZone(zone.id);
                               }
                             }}

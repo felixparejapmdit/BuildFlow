@@ -20,6 +20,7 @@ import {
   Building
 } from 'lucide-react';
 import { getIconColorForText } from '../../utils/colors';
+import { showConfirm, showAlert } from '../Common/ConfirmDialog';
 
 interface SnapshotsViewProps {
   snapshots: Snapshot[];
@@ -92,18 +93,37 @@ export const SnapshotsView: React.FC<SnapshotsViewProps> = ({
       a.click();
       URL.revokeObjectURL(url);
     } catch (err) {
-      alert('Failed to download snapshot file.');
+      showAlert({
+        title: 'Export Failed',
+        message: 'Failed to download snapshot file to local disk.',
+        variant: 'danger'
+      });
     }
   };
 
-  const handleRestore = (snapshot: Snapshot) => {
-    if (window.confirm(`⚠️ RESTORE POINT-IN-TIME SNAPSHOT:\n\nAre you sure you want to restore "${snapshot.label}"?\nCaptured on: ${new Date(snapshot.createdAt).toLocaleString()}\n\nThis will restore the entire database state to this exact snapshot.`)) {
+  const handleRestore = async (snapshot: Snapshot) => {
+    const confirmed = await showConfirm({
+      title: 'Rollback to Snapshot',
+      message: `Are you sure you want to restore "${snapshot.label}"?\n\nCaptured: ${new Date(snapshot.createdAt).toLocaleString()}\n\nThis will restore the entire database state (projects, workforce, and taxonomy) to this exact point in time. Current un-snapshotted changes will be overwritten.`,
+      confirmText: 'Rollback Database',
+      cancelText: 'Cancel',
+      variant: 'warning',
+      notice: 'Point-in-time recovery • Overwrites current operational state'
+    });
+    if (confirmed) {
       onRestoreSnapshot(snapshot.id);
     }
   };
 
-  const handleDelete = (snapshot: Snapshot) => {
-    if (window.confirm(`Delete snapshot "${snapshot.label}" permanently?`)) {
+  const handleDelete = async (snapshot: Snapshot) => {
+    const confirmed = await showConfirm({
+      title: 'Delete Snapshot',
+      message: `Are you sure you want to permanently delete snapshot "${snapshot.label}"?`,
+      confirmText: 'Delete Snapshot',
+      variant: 'danger',
+      notice: 'Removes point-in-time backup record'
+    });
+    if (confirmed) {
       onDeleteSnapshot(snapshot.id);
     }
   };

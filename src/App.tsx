@@ -40,6 +40,7 @@ import { VaultSecurityModal } from './components/Alerts/VaultSecurityModal';
 import { ProjectInspectorDrawer } from './components/ProjectDetails/ProjectInspectorDrawer';
 import { AdminLoginView } from './components/Auth/AdminLoginView';
 import { LogoutConfirmModal } from './components/Auth/LogoutConfirmModal';
+import { ConfirmDialogContainer, showAlert } from './components/Common/ConfirmDialog';
 import { isProjectStale } from './utils/time';
 
 export const App: React.FC = () => {
@@ -657,17 +658,34 @@ export const App: React.FC = () => {
         const res = storage.restoreDatabase(text);
         if (res.success) {
           refreshData();
-          alert('✓ Database successfully restored from backup.');
+          showAlert({
+            title: 'Database Restored',
+            message: 'All local databases, project schedules, and crew allocations were successfully restored from your backup file.',
+            variant: 'success',
+            notice: 'Current session refreshed with restored data'
+          });
         } else {
-          alert(`Restore failed: ${res.message}`);
+          showAlert({
+            title: 'Restore Failed',
+            message: res.message,
+            variant: 'danger'
+          });
         }
       } else {
         const res = storage.mergeImport(text);
         if (res.success) {
           refreshData();
-          alert(`✓ ${res.message}`);
+          showAlert({
+            title: 'Merge Import Completed',
+            message: res.message,
+            variant: 'success'
+          });
         } else {
-          alert(`Merge failed: ${res.message}`);
+          showAlert({
+            title: 'Merge Import Failed',
+            message: res.message,
+            variant: 'danger'
+          });
         }
       }
     };
@@ -677,7 +695,12 @@ export const App: React.FC = () => {
   const handleSaveDailySnapshot = () => {
     const { snapshotId, date } = storage.saveDailySnapshot();
     setSnapshots(storage.getSnapshots());
-    alert(`✓ Daily operations snapshot captured for ${date} (ID: ${snapshotId}).`);
+    showAlert({
+      title: 'Daily Snapshot Recorded',
+      message: `Point-in-time snapshot safely captured for ${date}.\n\nSnapshot Reference: ${snapshotId}`,
+      variant: 'success',
+      notice: 'Stored locally with full point-in-time rollback capability'
+    });
   };
 
   // User Account Handlers
@@ -709,9 +732,18 @@ export const App: React.FC = () => {
     const result = storage.restoreFromSnapshot(snapshotId);
     if (result.success) {
       refreshData();
-      alert('✓ Database successfully restored from snapshot.');
+      showAlert({
+        title: 'Snapshot Restored',
+        message: 'Database was successfully rolled back to the selected point-in-time snapshot.',
+        variant: 'success',
+        notice: 'Operational state synchronized with snapshot'
+      });
     } else {
-      alert(`Restore failed: ${result.message}`);
+      showAlert({
+        title: 'Restore Failed',
+        message: result.message,
+        variant: 'danger'
+      });
     }
   };
 
@@ -1008,6 +1040,9 @@ export const App: React.FC = () => {
         onClose={() => setIsLogoutModalOpen(false)}
         onConfirmLogout={handleConfirmLogout}
       />
+
+      {/* Universal Theme-Aware Alert & Confirm Dialog System */}
+      <ConfirmDialogContainer />
     </div>
   );
 };

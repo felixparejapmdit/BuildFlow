@@ -11,6 +11,7 @@ import {
   Check,
   X
 } from 'lucide-react';
+import { showConfirm } from '../Common/ConfirmDialog';
 
 interface PropertiesViewProps {
   estates: Estate[];
@@ -272,8 +273,15 @@ export const PropertiesView: React.FC<PropertiesViewProps> = ({
                 {estates.length > 1 && onDeleteEstate && (
                   <button 
                     className="btn-subtle" 
-                    onClick={() => {
-                      if (window.confirm(`Delete property "${currentEstate.name}" and all its structures?`)) {
+                    onClick={async () => {
+                      const confirmed = await showConfirm({
+                        title: 'Delete Property Estate',
+                        message: `Are you sure you want to delete property "${currentEstate.name}" and all its structures & work areas?`,
+                        confirmText: 'Delete Property',
+                        variant: 'danger',
+                        notice: 'Hierarchy removal • All child buildings and zones will be removed'
+                      });
+                      if (confirmed) {
                         onDeleteEstate(currentEstate.id);
                         const remaining = estates.filter(e => e.id !== currentEstate.id);
                         if (remaining[0]) setSelectedEstateId(remaining[0].id);
@@ -335,8 +343,15 @@ export const PropertiesView: React.FC<PropertiesViewProps> = ({
                       {onDeleteLocation && (
                         <button
                           type="button"
-                          onClick={() => {
-                            if (window.confirm(`Delete structure "${loc.name}"?`)) {
+                          onClick={async () => {
+                            const confirmed = await showConfirm({
+                              title: 'Delete Building Structure',
+                              message: `Are you sure you want to delete structure "${loc.name}"?`,
+                              confirmText: 'Delete Structure',
+                              variant: 'danger',
+                              notice: 'Hierarchy removal • Zones within this structure will be unlinked'
+                            });
+                            if (confirmed) {
                               onDeleteLocation(loc.id);
                               const rem = estateLocations.filter(l => l.id !== loc.id);
                               if (rem[0]) setSelectedLocationId(rem[0].id);
@@ -422,8 +437,14 @@ export const PropertiesView: React.FC<PropertiesViewProps> = ({
                                 <button 
                                   type="button" 
                                   className="btn-subtle" 
-                                  onClick={() => {
-                                    if (window.confirm(`Delete zone "${z.name}"?`)) {
+                                  onClick={async () => {
+                                    const confirmed = await showConfirm({
+                                      title: 'Delete Specific Work Zone',
+                                      message: `Are you sure you want to delete work area zone "${z.name}"?`,
+                                      confirmText: 'Delete Zone',
+                                      variant: 'danger'
+                                    });
+                                    if (confirmed) {
                                       onDeleteZone(z.id);
                                     }
                                   }}
