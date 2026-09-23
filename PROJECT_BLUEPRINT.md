@@ -58,33 +58,48 @@ Because workers cannot use phones on-site, the reporting and allocation burden r
 - **Reporting Speed:** Daily status entry for all active projects completed in under 5 minutes total.
 - **Overdue Detection:** Zero stale projects (>24h without update) or proposals (>48h without feedback) go unnoticed.
 - **100% Dynamic Taxonomy:** Zero hardcoded locations or trades; properties, zones, categories, and specialties can be created, edited, and deleted at runtime.
-- **Mobile First & Responsive:** Seamless usability on smartphones (`<768px`) with a native-feeling 4-tab bottom navigation and tools bottom sheet.
+- **Mobile First & Responsive:** Seamless usability on smartphones (`<768px`) with a native-feeling single-row header, 4-tab bottom navigation, and tools bottom sheet.
+- **PWA Ready:** Installable standalone web app across Android, iOS, and desktop browsers with custom installation banner.
 
 ### 1.4 Feature Requirements Matrix
 
 #### A. Projects Queue (Download Dashboard)
 - **Interactive Progress Bar Row:** Visual bar showing `0–100%` completion with color-coded status states (`Active`, `Paused`, `Completed`).
-- **Scrubbing Controls:** Instant `+5%`, `+10%`, or direct slider adjustment with optimistic rendering.
+- **Position-Locked Scrubbing:** Incremental `-5%` and `+5%` buttons immediately update project percentage and timestamps while strictly maintaining card row order (no erratic jumping to top of queue).
+- **Multi-Line Stage Text:** Stage descriptions wrap cleanly across lines without horizontal ellipsis truncation, ensuring thorough field progress logs remain completely readable on compact mobile screens.
+- **Mobile KPI Grid:** Summary telemetry stat cards stack into a clean 2-column grid on mobile viewports.
 - **Metadata Pills:** Property & Building tag, Work Area tag, assigned crew headcount badge, priority badge, and relative update timestamp (`25m ago`, `yesterday`).
 - **Filters & Search:** Real-time search across titles, stages, properties, and filter pills (`All Projects`, `Residential`, `Offices`, `Estate Grounds`, `Completed`).
 
-#### B. Projects Manager (Table Grid)
-- Full-featured data table view for managing all projects with sortable columns.
+#### B. Projects Manager (Table Grid Hub)
+- Full-featured data table view (`?tab=projects_table`) for managing all projects with sortable columns.
 - Inline status changers (`Active`, `Paused`, `Completed`) and stage description editor.
+- **Direct Row Deletion:** Unconditional trash button in the Actions column permitting rapid project deletion, protected by a custom danger confirmation modal.
 - 1-click links to Checklist modal, Proposals modal, Manpower drawer, and Project Inspector.
 
-#### C. Crew Allocator & Manpower Board
+#### C. Progressive Web App (PWA) & Standalone Capabilities
+- **Web App Manifest (`manifest.json`):** Full standalone mode, portrait orientation, theme color `#0e1217`, background color `#0e1217`, and shortcut links.
+- **App Icons:** High-resolution SVG maskable and standard app icons (`icon.svg`).
+- **Custom PWA Install Prompt:** React banner component listening to `beforeinstallprompt` on Chromium browsers, offering a 1-click "Install BuildFlow" action. Includes dedicated iOS Safari walkthrough ("Tap Share -> Add to Home Screen").
+
+#### D. Universal Custom Modal Dialogs (Zero Native Browser Popups)
+- **Global Promise-Based Dialogs:** Universal replacement for `window.alert()` and `window.confirm()` via `showAlert()` and `showConfirm()`.
+- **Semantic Variants:** Tailored glassmorphic modal styling for `danger` (red), `warning` (amber), `info` (blue), and `success` (emerald).
+- **Security & Integrity Notice:** Clear warning callouts for destructive actions (e.g., project deletion, record resets).
+- **Accessibility & Focus:** Supports `Enter` to confirm, `Escape` to cancel, and backdrop click dismissal.
+
+#### E. Crew Allocator & Manpower Board
 - **Live Roster Pool:** Tracks on-site deployable staff vs. restricted/off-site personnel.
 - **Quick Reassignment Drawer:** Reallocate headcount or specific workers between projects without drag-and-drop complexity.
 - **Bench Capacity Counter:** Live indicator showing currently deployed crew vs. available bench capacity.
 
-#### D. Team Roster & Workers Hub
+#### F. Team Roster & Workers Hub
 - **Pinoy Male Celebrities:** Pre-seeded with 50 iconic Filipino personalities (*Piolo Pascual, Jericho Rosales, Dingdong Dantes, Coco Martin, Alden Richards, Daniel Padilla, etc.*) with high-definition portrait avatars.
 - **Pagination:** Fixed 25 items per page (`pageSize = 25`), with dynamic counter (`Showing 1–25 of 50 workers`), page pills (`[1]`, `[2]`), and Next/Prev buttons.
 - **Worker Management:** Add single worker with photo URL preview or 8 preset avatars; toggle availability (`Available on-site` vs. `Off-site / Restricted`); edit and delete capabilities.
 - **Bulk Import Modal:** Admin utility to paste multi-line worker lists (`Full Name, Trade`) with instant parsing and sample list generator.
 
-#### E. Mandatory 7-Point Quality Gate Checklist
+#### G. Mandatory 7-Point Quality Gate Checklist
 Submissions cannot be locked or delivered to the client until all 7 items pass:
 1. **Material Availability in Stock:** Verified on-site or in warehouse.
 2. **Assigned Manpower:** Number of deployable hands confirmed.
@@ -94,26 +109,29 @@ Submissions cannot be locked or delivered to the client until all 7 items pass:
 6. **References & Physical Samples:** Physical swatches/samples prepared for client review.
 7. **Pros & Cons Matrix:** Clear trade-offs detailed for each option.
 
-#### F. Stale Project & Proposal Radar
+#### H. Stale Project & Proposal Radar
 - **Project Stale Detector:** Automatically flags projects without updates for >24 hours.
 - **Proposal Stale Detector:** Highlights proposals awaiting client feedback for >48 hours.
 - **1-Click Follow-Up Draft:** Generates a polite, copyable VIP reminder message.
 
-#### G. Mobile Navigation & Bottom Sheet (Images 2 & 3 Reference)
-- **Fixed Bottom Tab Bar (Image 2):** 4 clean items at `<768px`:
+#### I. Mobile Layout & Bottom Sheet Navigation
+- **Single-Row Mobile Header:** Fixed `52px` header height with `flex-wrap: nowrap` preventing menu buttons from wrapping and colliding with project telemetry labels. Desktop-redundant action buttons are hidden on mobile header.
+- **User Identity Chip:** Integrated user avatar and name pill; Lock & Sign Out action positioned adjacent to Settings icon.
+- **Fixed Bottom Tab Bar:** 4 clean items at `<768px`:
   - 🏠 **Home** (Blue `#3b82f6`) — Projects Queue
   - 📋 **Manager** (Orange `#f59e0b`) — Projects Table Manager
   - 📄 **Reports** (Purple `#8b5cf6`) — Daily Operations Digest
   - ⋯ **More** (Three dots icon) — Toggles the Navigation & Tools bottom sheet
-- **Navigation & Tools Bottom Sheet (Image 3):**
+- **Navigation & Tools Bottom Sheet:**
   - Top pill drag handle, header with circular close `X` button.
-  - 2-column card grid with custom squircles for *Crew Allocator, Team Roster, Properties & Sites, Specific Zones, Project Categories, Priority Levels, Trade Specialties, Approval Rules, Stale Radar, Theme Mode, Load Sample Data, and Lock & Sign Out*.
+  - 2-column card grid with custom squircles for administrative and data management hubs.
 
-#### H. Enhanced Logout Confirmation Modal (Image 1 Reference)
-- Eliminates native browser alerts (`window.confirm`).
-- Glassmorphic modal with red `LogOut` badge, clear confirmation prompt (*"Lock BuildFlow Session?"*), encrypted data notice, and distinct *Cancel* vs. *Lock & Sign Out* buttons.
+#### J. Authentication & Clean Workspace Lifecycle
+- **Clean Workspace Default:** Standard username/password login clears all previous session records (`storage.clearAllData()`), providing an unpolluted slate.
+- **1-Click Supervisor Demo:** Instantly re-populates the complete 4-project, 50-worker sample database (`storage.loadSampleData()`).
+- Removed redundant and dangerous sample reset items from the global menu bar dropdown.
 
-#### I. Dual Theme Modes & Wide Stretch Layout
+#### K. Dual Theme Modes & Wide Stretch Layout
 - **Obsidian Dark (Default):** Deep slate `#0e1217` surfaces optimized for high-contrast field viewing.
 - **Notion Light:** Warm monochrome `#f7f6f3` paper-like canvas.
 - **1480px Stretch Container:** Expands comfortably on widescreen displays with `28px` margins while remaining mobile-responsive.
@@ -326,6 +344,13 @@ export interface ManpowerAllocation {
 
 | Feature Area | Status | Verification |
 | :--- | :--- | :--- |
+| **Progressive Web App (PWA)** | Completed | `manifest.json`, standalone display, SVG maskable app icons, and custom `PwaInstallPrompt` banner. |
+| **Single-Row Mobile Header** | Completed | Header strictly constrained to `52px` without flex-wrap; desktop buttons hidden on `<768px`; 0 overlap with telemetry strip. |
+| **Stage Description Wrap** | Completed | `.stage-content-wrap` with `word-break: break-word` preventing text clipping on long stage summaries. |
+| **Position-Locked Scrubbing** | Completed | `-5%` and `+5%` updates maintain exact card order in queue without jumping to top. |
+| **Universal Modal Dialogs** | Completed | `showConfirm()` and `showAlert()` globally replace all browser `window.alert` / `window.confirm` popups. |
+| **Direct Project Row Deletion**| Completed | Trash button in Projects Table Actions column with custom danger modal confirmation. |
+| **Clean Workspace Lifecycle** | Completed | Standard login clears all data (`storage.clearAllData()`); 1-Click Demo rehydrates sample data. |
 | **Download Queue Engine** | Completed | 4 active projects with interactive scrubbers, status badges, and stage summaries. |
 | **Projects Table Manager** | Completed | Sortable CRUD table, status toggling, stage editing, direct checklist links. |
 | **Crew Allocator** | Completed | Live manpower allocation board with headcount metrics and reassignment drawer. |
@@ -340,4 +365,4 @@ export interface ManpowerAllocation {
 | **E2EE & Database Tools** | Completed | Local encrypted vault backups, JSON export/restore, and reset tools. |
 | **Zero Cockpit Jargon** | Completed | 0 occurrences of cockpit terminology across all components and files. |
 | **1480px Stretch Layout** | Completed | Responsive layout stretching comfortably across widescreen and mobile displays. |
-| **Production Build** | Verified | `tsc -b && vite build` passing with 0 errors (1,916 modules transformed). |
+| **Vercel & Strict Build** | Verified | `tsc -b && vite build` passes with 0 errors; CI/CD operational on GitHub `main`. |

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Trash2, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Info, 
-  X, 
+import {
+  Trash2,
+  AlertTriangle,
+  CheckCircle2,
+  Info,
+  X,
   ShieldCheck
 } from 'lucide-react';
 
@@ -162,22 +162,22 @@ export const ConfirmDialogContainer: React.FC = () => {
   const cancelText = current.cancelText || 'Cancel';
 
   return (
-    <div 
-      className="modal-overlay" 
-      onClick={handleCancel} 
-      style={{ 
-        zIndex: 2500, 
+    <div
+      className="modal-overlay"
+      onClick={handleCancel}
+      style={{
+        zIndex: 2500,
         backdropFilter: 'blur(5px)',
         backgroundColor: 'rgba(0, 0, 0, 0.65)'
       }}
     >
-      <div 
-        className="modal-card" 
+      <div
+        className="modal-card"
         onClick={e => e.stopPropagation()}
-        style={{ 
-          maxWidth: '440px', 
+        style={{
+          maxWidth: '440px',
           width: '92%',
-          padding: '24px 26px', 
+          padding: '24px 26px',
           borderRadius: '16px',
           boxShadow: '0 25px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-default)',
           background: 'var(--bg-canvas)',
@@ -204,14 +204,14 @@ export const ConfirmDialogContainer: React.FC = () => {
             {config.icon}
           </div>
 
-          <button 
-            type="button" 
-            className="btn-subtle" 
+          <button
+            type="button"
+            className="btn-subtle"
             onClick={handleCancel}
             aria-label="Close dialog"
-            style={{ 
-              borderRadius: 'var(--radius-full)', 
-              padding: '6px', 
+            style={{
+              borderRadius: 'var(--radius-full)',
+              padding: '6px',
               color: 'var(--text-tertiary)',
               border: 'none',
               background: 'transparent'
@@ -223,19 +223,19 @@ export const ConfirmDialogContainer: React.FC = () => {
 
         {/* Title and Message */}
         <div>
-          <h3 style={{ 
-            fontSize: '18px', 
-            fontWeight: 700, 
-            color: 'var(--text-primary)', 
-            margin: '0 0 8px 0', 
+          <h3 style={{
+            fontSize: '18px',
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+            margin: '0 0 8px 0',
             letterSpacing: '-0.01em',
             lineHeight: 1.3
           }}>
             {title}
           </h3>
-          <p style={{ 
-            fontSize: '13.5px', 
-            color: 'var(--text-secondary)', 
+          <p style={{
+            fontSize: '13.5px',
+            color: 'var(--text-secondary)',
             lineHeight: 1.55,
             margin: 0,
             whiteSpace: 'pre-line'
@@ -263,16 +263,16 @@ export const ConfirmDialogContainer: React.FC = () => {
         )}
 
         {/* Action Buttons */}
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'flex-end', 
-          gap: '10px', 
-          marginTop: '6px' 
+        <div style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '10px',
+          marginTop: '6px'
         }}>
           {current.type === 'confirm' && (
-            <button 
-              type="button" 
-              className="btn-subtle" 
+            <button
+              type="button"
+              className="btn-subtle"
               onClick={handleCancel}
               style={{
                 padding: '9px 16px',
@@ -287,8 +287,8 @@ export const ConfirmDialogContainer: React.FC = () => {
             </button>
           )}
 
-          <button 
-            type="button" 
+          <button
+            type="button"
             onClick={handleConfirm}
             autoFocus
             style={{
