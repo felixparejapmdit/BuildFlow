@@ -44,13 +44,15 @@ export const showConfirm = (options: DialogOptions | string): Promise<boolean> =
 };
 
 export const showAlert = (options: DialogOptions | string): Promise<void> => {
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     const opts: DialogOptions = typeof options === 'string' ? { message: options } : options;
     if (activeListener) {
       activeListener({
         ...opts,
         type: 'alert',
-        resolve: () => resolve(true)
+        resolve: () => {
+          resolve();
+        }
       });
     } else {
       window.alert(opts.message);
