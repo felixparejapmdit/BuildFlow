@@ -221,13 +221,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
     <div className="project-list-container" style={{ display: 'flex', flexDirection: 'column', gap: '0', height: '100%' }}>
 
       {/* ── KPI Banner Row ── */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-        gap: '12px',
-        marginBottom: '20px',
-        padding: '0 2px'
-      }}>
+      <div className="kpi-banner-grid">
         {/* Total */}
         <div className="kpi-card" onClick={() => setSelectedFilter('all')} style={{ cursor: 'pointer', borderColor: selectedFilter === 'all' ? 'var(--accent-blue-border)' : undefined }}>
           <div className="kpi-icon" style={{ background: 'rgba(59,130,246,0.12)', color: '#3b82f6' }}>
@@ -285,13 +279,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({
       </div>
 
       {/* ── Toolbar Row ── */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        marginBottom: '12px',
-        flexWrap: 'wrap'
-      }}>
+      <div className="project-toolbar-row">
         {/* Search */}
         <div className="search-input-wrap" style={{ flex: '1 1 220px', minWidth: '180px' }}>
           <Search size={14} className="search-icon" />

@@ -25,7 +25,8 @@ import {
   MapPin,
   Zap,
   AlertTriangle,
-  ArrowRight
+  ArrowRight,
+  X
 } from 'lucide-react';
 
 type ViewMode = 'list' | 'grid';
@@ -402,29 +403,46 @@ export const ProjectRow: React.FC<ProjectRowProps> = ({
         {/* Bottom Row */}
         <div className="download-row-bottom">
           <div className="stage-summary">
-            <em>Stage:</em>
+            <span className="stage-label">Stage:</span>
             {isEditingStage ? (
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <div className="stage-edit-form">
                 <input
-                  type="text" value={stageInput}
+                  type="text" 
+                  value={stageInput}
                   onChange={(e) => setStageInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSaveStage()}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSaveStage();
+                    if (e.key === 'Escape') setIsEditingStage(false);
+                  }}
                   autoFocus
-                  style={{ padding: '2px 6px', fontSize: '12px', width: '260px' }}
+                  className="stage-input"
+                  placeholder="Describe current stage..."
                 />
-                <button type="button" className="btn-scrub" onClick={handleSaveStage}><Check size={12} /></button>
+                <button type="button" className="btn-scrub" onClick={handleSaveStage} title="Save stage">
+                  <Check size={12} />
+                </button>
+                <button type="button" className="btn-subtle" onClick={() => setIsEditingStage(false)} title="Cancel">
+                  <X size={12} />
+                </button>
               </div>
             ) : (
-              <span onClick={() => setIsEditingStage(true)} title="Click to edit stage"
-                style={{ cursor: 'pointer', borderBottom: '1px dashed var(--border-strong)' }}>
-                {project.currentStageSummary || 'Click to add stage...'}
-              </span>
-            )}
-            {!isEditingStage && (
-              <button type="button" className="btn-subtle" onClick={() => setIsEditingStage(true)}
-                style={{ padding: '1px 4px', height: '18px' }}>
-                <Edit3 size={10} />
-              </button>
+              <div className="stage-content-wrap">
+                <span 
+                  onClick={() => setIsEditingStage(true)} 
+                  title="Click to edit stage description"
+                  className="stage-text"
+                >
+                  {project.currentStageSummary || 'Click to add stage description...'}
+                </span>
+                <button 
+                  type="button" 
+                  className="btn-subtle stage-edit-btn" 
+                  onClick={() => setIsEditingStage(true)}
+                  title="Edit stage description"
+                >
+                  <Edit3 size={11} />
+                </button>
+              </div>
             )}
           </div>
 

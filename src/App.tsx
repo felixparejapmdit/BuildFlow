@@ -41,6 +41,7 @@ import { ProjectInspectorDrawer } from './components/ProjectDetails/ProjectInspe
 import { AdminLoginView } from './components/Auth/AdminLoginView';
 import { LogoutConfirmModal } from './components/Auth/LogoutConfirmModal';
 import { ConfirmDialogContainer, showAlert } from './components/Common/ConfirmDialog';
+import { PwaInstallPrompt } from './components/Common/PwaInstallPrompt';
 import { isProjectStale } from './utils/time';
 
 export const App: React.FC = () => {
@@ -1043,6 +1044,9 @@ export const App: React.FC = () => {
 
       {/* Universal Theme-Aware Alert & Confirm Dialog System */}
       <ConfirmDialogContainer />
+
+      {/* PWA Mobile Installation Prompt Banner */}
+      <PwaInstallPrompt />
     </div>
   );
 };

@@ -433,7 +433,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button 
             type="button" 
-            className="btn-subtle" 
+            className="btn-subtle desktop-only-action" 
             onClick={onOpenDailyReport}
             style={{ border: '1px solid var(--border-default)' }}
             title="Open Daily Summary &amp; Export"
@@ -446,7 +446,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {activeTab === 'projects' ? (
             <button 
               type="button" 
-              className="btn-primary" 
+              className="btn-primary desktop-only-action" 
               onClick={onNewProjectClick}
               title="Add a new project to the download queue"
             >
@@ -456,7 +456,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           ) : (
             <button 
               type="button" 
-              className="btn-primary" 
+              className="btn-primary desktop-only-action" 
               disabled
               style={{ 
                 opacity: 0.35, 
@@ -472,7 +472,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
 
           {/* ── User Identity + Logout Chip ── */}
-          <div style={{
+          <div className="user-chip" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '0',
@@ -516,7 +516,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 ) : userInitials}
               </div>
               {/* Name */}
-              <span style={{
+              <span className="user-name-text" style={{
                 fontSize: '12px',
                 fontWeight: 600,
                 color: 'var(--text-primary)',

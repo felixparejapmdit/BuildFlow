@@ -1,17 +1,65 @@
 {
-  "name": "BuildFlow",
+  "id": "/buildflow-pwa",
+  "name": "BuildFlow - Construction & Estate Management",
   "short_name": "BuildFlow",
-  "description": "VIP Estate & Properties Project Progress & Manpower Management",
-  "start_url": "/",
+  "description": "High-density mobile construction & estate project management progressive web application",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FFFFFF",
-  "orientation": "any",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#0c0d10",
+  "theme_color": "#12141a",
+  "categories": [
+    "productivity",
+    "business",
+    "utilities"
+  ],
   "icons": [
     {
+      "src": "/icon.svg",
+      "sizes": "512x512 192x192 128x128 64x64",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
       "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Projects Queue",
+      "short_name": "Queue",
+      "description": "View live project download queue",
+      "url": "/?tab=projects&source=pwa_shortcut",
+      "icons": [{ "src": "/icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Crew Allocator",
+      "short_name": "Crew",
+      "description": "Manage workforce and shift crew members",
+      "url": "/?tab=manpower&source=pwa_shortcut",
+      "icons": [{ "src": "/icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Projects Manager",
+      "short_name": "Manager",
+      "description": "Database hub of all projects",
+      "url": "/?tab=projects_table&source=pwa_shortcut",
+      "icons": [{ "src": "/icon.svg", "sizes": "96x96" }]
     }
   ]
 }
